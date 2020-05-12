@@ -25,6 +25,7 @@ async function run() {
             ignoreReturnCode: true,
             listeners: {
                 stdline: data => {
+                    console.log(`Line: ${data}`)
                     try {
                         welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
                         console.log(`Found Welcome CID: ${welcomeCid}`)
