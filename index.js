@@ -42,7 +42,7 @@ async function run() {
         welcomeCid = 'QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc'
 
         if (welcomeCid) {
-            await exec.exec('ipfs', ['cat', `/ipfs/${welcomeCid}/readme`])
+            await exec.exec('ipfs', ['cat', `${welcomeCid}/readme`])
         }
     } catch (error) {
         core.setFailed(error.message);
