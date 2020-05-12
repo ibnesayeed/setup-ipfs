@@ -27,6 +27,7 @@ async function run() {
                 stdline: data => {
                     try {
                         welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
+                        console.log(`Found Welcome CID: ${welcomeCid}`)
                     } catch (error) {
                         // Do nothing
                     }
