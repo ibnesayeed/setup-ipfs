@@ -20,14 +20,24 @@ async function run() {
         const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsVer);
         core.addPath(path.join(ipfsPath, 'go-ipfs'))
 
-        try {
-            await exec.exec('ipfs init')
-        } catch (error) {
-            core.info(error.message)
-            core.info('IPFS initialization failed, perhaps already initialized')
+        let welcomeCid
+        const opts = {
+            ignoreReturnCode: true,
+            listeners: {
+                stdline: data => {
+                    try {
+                        welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
+                    } catch (error) {
+                        // Do nothing
+                    }
+                }
+            }
         }
+        await exec.exec('ipfs', ['init'], opts)
 
-        await exec.exec('ipfs cat /ipfs/QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc/readme')
+        if (welcomeCid) {
+            await exec.exec('ipfs', ['cat', `/ipfs/${welcomeCid}/readme`])
+        }
     } catch (error) {
         core.setFailed(error.message);
     }
