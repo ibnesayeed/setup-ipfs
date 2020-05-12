@@ -1,0 +1,39 @@
+{
+  "name": "setup-ipfs",
+  "version": "0.1.0",
+  "description": "A GitHub Action to install and initialize IPFS",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js",
+    "package": "ncc build index.js -o dist",
+    "test": "eslint index.js && jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibnesayeed/setup-ipfs.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "Workflow",
+    "IPFS",
+    "Setup"
+  ],
+  "author": "Sawood Alam <@ibnesayeed>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ibnesayeed/setup-ipfs/issues"
+  },
+  "homepage": "https://github.com/ibnesayeed/setup-ipfs#readme",
+  "dependencies": {
+    "@actions/core": "^1.2",
+    "@actions/tool-cache": "^1.0",
+    "@actions/io": "^1.0",
+    "@actions/exec": "^1.0"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.22",
+    "eslint": "^7.0",
+    "jest": "^26.0"
+  }
+}
