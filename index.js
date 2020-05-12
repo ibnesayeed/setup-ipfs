@@ -37,6 +37,10 @@ async function run() {
         }
         await exec.exec('ipfs', ['init'], opts)
 
+        console.log(`Value of CID: ${welcomeCid}`)
+
+        welcomeCid = 'QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc'
+
         if (welcomeCid) {
             await exec.exec('ipfs', ['cat', `/ipfs/${welcomeCid}/readme`])
         }
