@@ -20,6 +20,8 @@ async function run() {
         const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsVer);
         core.addPath(path.join(ipfsPath, 'go-ipfs'))
 
+        console.log('About to initialize IPFS')
+
         let welcomeCid
         const opts = {
             ignoreReturnCode: true,
