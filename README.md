@@ -10,7 +10,7 @@ This action automatically detects runner platform features like the operating sy
 
 ### `ipfs_version`
 
-An exact IPFS version of a [released binary](https://dist.ipfs.io/go-ipfs/versions). Default: `v0.5.1`.
+A [released IPFS binary version](https://dist.ipfs.io/go-ipfs/versions) in [SemVer](https://semver.org/) format (Default: `0.5`).
 
 
 ## Example usage
@@ -18,5 +18,5 @@ An exact IPFS version of a [released binary](https://dist.ipfs.io/go-ipfs/versio
 ```yml
 uses: ibnesayeed/setup-ipfs@master
 with:
-  ipfs_version: v0.5.1
+  ipfs_version: ^0.5
 ```
