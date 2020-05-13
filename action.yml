@@ -4,7 +4,7 @@ author: Sawood Alam <@ibnesayeed>
 inputs:
   ipfs_version:
     description: An exact IPFS version of a released binary (https://dist.ipfs.io/go-ipfs/versions)
-    default: v0.5.1
+    default: 0.5
 runs:
   using: node12
   main: dist/index.js
