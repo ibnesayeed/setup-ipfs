@@ -21,7 +21,7 @@ A simple usage in `jobs.<job_id>.steps` with default latest IPFS version:
 - uses: ibnesayeed/setup-ipfs@master
 ```
 
-Setup a custom IPFS version (e.g., latest patch of IPFS `0.4.x`):
+Setting up a custom IPFS version (e.g., latest patch of IPFS `0.4.x`):
 
 ```yml
 - uses: ibnesayeed/setup-ipfs@master
