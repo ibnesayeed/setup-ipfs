@@ -1,9 +1,17 @@
 const path = require('path')
+const fs = require('fs')
+const semver = require('semver')
 const core = require('@actions/core')
 const tc = require('@actions/tool-cache')
 const exec = require('@actions/exec')
 
+const IPFSVERS = 'https://dist.ipfs.io/go-ipfs/versions'
 const ISWIN = process.platform === 'win32'
+
+async function ipfsDistVersion(version) {
+    const ipfsVersPath = await tc.downloadTool(IPFSVERS)
+    return fs.readFileSync(ipfsVersPath, 'utf8').trim().split('\n').filter(v => semver.satisfies(v, version)).sort(semver.rcompare)[0] || version
+}
 
 function ipfsDistUrl(version) {
     const os = ISWIN ? 'windows' : process.platform
@@ -15,9 +23,10 @@ function ipfsDistUrl(version) {
 async function run() {
     try {
         const ipfsVer = core.getInput('ipfs_version')
-        const ipfsPkgPath = await tc.downloadTool(ipfsDistUrl(ipfsVer))
+        const ipfsDistVer = await ipfsDistVersion(ipfsVer)
+        const ipfsPkgPath = await tc.downloadTool(ipfsDistUrl(ipfsDistVer))
         const ipfsExtractedFolder = ISWIN ? await tc.extractZip(ipfsPkgPath) : await tc.extractTar(ipfsPkgPath)
-        const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsVer);
+        const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsDistVer);
         core.addPath(path.join(ipfsPath, 'go-ipfs'))
 
         let welcomeCid
