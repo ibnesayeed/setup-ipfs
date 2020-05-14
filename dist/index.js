@@ -993,13 +993,19 @@ async function run() {
             ignoreReturnCode: true,
             listeners: {
                 stdline: data => {
-                    core.debug(`Line: ${data}`)
+                    core.debug(`STDLINE: ${data}`)
                     try {
                         welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
                         core.debug(`Found Welcome CID: ${welcomeCid}`)
                     } catch (error) {
                         // Do nothing
                     }
+                },
+                stdout: data => {
+                    core.debug(`STDOUT: ${data}`)
+                },
+                stderr: data => {
+                    core.debug(`STDERR: ${data}`)
                 }
             }
         }
