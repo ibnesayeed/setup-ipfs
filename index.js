@@ -33,9 +33,9 @@ async function run() {
         const opts = {
             ignoreReturnCode: true,
             listeners: {
-                stdline: data => {
+                stdout: data => {
                     try {
-                        welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
+                        welcomeCid = data.toString().match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
                     } catch (error) {
                         // Do nothing
                     }
@@ -45,7 +45,7 @@ async function run() {
         await exec.exec('ipfs', ['init'], opts)
 
         if (welcomeCid) {
-            await exec.exec('ipfs', ['cat', `/ipfs/${welcomeCid}/readme`])
+            await exec.exec('ipfs', ['cat', `${welcomeCid}/readme`])
         }
     } catch (error) {
         core.setFailed(error.message);
