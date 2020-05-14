@@ -27,7 +27,7 @@ async function run() {
             ignoreReturnCode: true,
             listeners: {
                 stdout: data => {
-                    core.debug(`STDLINE: ${data}`)
+                    core.debug(`STDOUT: ${data}`)
                     try {
                         welcomeCid = data.toString().match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
                         core.debug(`Found Welcome CID: ${welcomeCid}`)
