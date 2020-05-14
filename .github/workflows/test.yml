@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test-in-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        ipfs:
+          - 0.4
+          - 0.5
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} IPFS-${{ matrix.ipfs }}
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up IPFS ${{ matrix.ipfs }}
+        uses: ./
+        with:
+          ipfs_version: ${{ matrix.ipfs }}
+      - name: Boot IPFS Daemon
+        shell: bash
+        run: |
+          ipfs daemon &
+          while ! curl -s localhost:5001 > /dev/null; do sleep 1; done
+      - name: Run Tests
+        shell: bash
+        run: curl -X POST http://localhost:5001/api/v0/version
