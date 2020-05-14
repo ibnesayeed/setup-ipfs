@@ -31,4 +31,4 @@ jobs:
           while ! curl -s localhost:5001 > /dev/null; do sleep 1; done
       - name: Run Tests
         shell: bash
-        run: curl -X POST http://localhost:5001/api/v0/version
+        run: curl -sX POST http://localhost:5001/api/v0/version
