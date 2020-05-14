@@ -26,28 +26,20 @@ async function run() {
         const opts = {
             ignoreReturnCode: true,
             listeners: {
-                stdline: data => {
+                stdout: data => {
                     core.debug(`STDLINE: ${data}`)
                     try {
-                        welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
+                        welcomeCid = data.toString().match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
                         core.debug(`Found Welcome CID: ${welcomeCid}`)
                     } catch (error) {
                         // Do nothing
                     }
-                },
-                stdout: data => {
-                    core.debug(`STDOUT: ${data}`)
-                },
-                stderr: data => {
-                    core.debug(`STDERR: ${data}`)
                 }
             }
         }
         await exec.exec('ipfs', ['init'], opts)
 
         core.debug(`Value of CID: ${welcomeCid}`)
-
-        welcomeCid = 'QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc'
 
         if (welcomeCid) {
             await exec.exec('ipfs', ['cat', `${welcomeCid}/readme`])
