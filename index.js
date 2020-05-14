@@ -20,17 +20,17 @@ async function run() {
         const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsVer);
         core.addPath(path.join(ipfsPath, 'go-ipfs'))
 
-        core.log('About to initialize IPFS')
+        core.debug('About to initialize IPFS')
 
         let welcomeCid
         const opts = {
             ignoreReturnCode: true,
             listeners: {
                 stdline: data => {
-                    core.log(`Line: ${data}`)
+                    core.debug(`Line: ${data}`)
                     try {
                         welcomeCid = data.match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
-                        core.log(`Found Welcome CID: ${welcomeCid}`)
+                        core.debug(`Found Welcome CID: ${welcomeCid}`)
                     } catch (error) {
                         // Do nothing
                     }
@@ -39,7 +39,7 @@ async function run() {
         }
         await exec.exec('ipfs', ['init'], opts)
 
-        core.log(`Value of CID: ${welcomeCid}`)
+        core.debug(`Value of CID: ${welcomeCid}`)
 
         welcomeCid = 'QmQPeNsJPyVWPFDVHb77w8G42Fvo15z4bG2X8D2GhfbSXc'
 
