@@ -1295,7 +1295,7 @@ async function run() {
         const ipfsVer = core.getInput('ipfs_version')
         const ipfsDistVer = await ipfsDistVersion(ipfsVer)
         const ipfsDownloadUrl = ipfsDistUrl(ipfsDistVer)
-        core.setOutput('resolved_ipfs_version', ipfsDistVer)
+        core.setOutput('resolved_ipfs_version', ipfsDistVer.replace(/^v/, ''))
         core.setOutput('ipfs_download_url', ipfsDownloadUrl)
         const ipfsPkgPath = await tc.downloadTool(ipfsDownloadUrl)
         const ipfsExtractedFolder = ISWIN ? await tc.extractZip(ipfsPkgPath) : await tc.extractTar(ipfsPkgPath)
