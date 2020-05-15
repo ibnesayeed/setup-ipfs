@@ -31,4 +31,6 @@ jobs:
         run: ipfs cat ${{ steps.ipfs_setup.outputs.welcome_ref }}/readme
       - name: Test IPFS ${{ steps.ipfs_setup.outputs.resolved_ipfs_version }} API
         shell: bash
-        run: curl -sX POST http://localhost:5001/api/v0/version | jq -e '(.Version=="${{ steps.ipfs_setup.outputs.resolved_ipfs_version }}")'
+        run: |
+          set -o pipefail
+          curl -sX POST http://localhost:5001/api/v0/version | jq -e '(.Version=="${{ steps.ipfs_setup.outputs.resolved_ipfs_version }}")'
