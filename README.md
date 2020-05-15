@@ -13,6 +13,19 @@ This action automatically detects runner platform features like the operating sy
 A [released IPFS binary version](https://dist.ipfs.io/go-ipfs/versions) in [SemVer](https://semver.org/) format (Default: `0.5`).
 
 
+## Outputs
+
+The setup process sets some output variables to be utilized in any succeeding steps.
+
+### `resolved_ipfs_version`
+
+Latest matching SemVer IPFS version installed.
+
+### `ipfs_download_url`
+
+Utilized IPFS distribution download URL.
+
+
 ## Example usage
 
 A simple usage in `jobs.<job_id>.steps` with default latest IPFS version:

@@ -1294,7 +1294,10 @@ async function run() {
     try {
         const ipfsVer = core.getInput('ipfs_version')
         const ipfsDistVer = await ipfsDistVersion(ipfsVer)
-        const ipfsPkgPath = await tc.downloadTool(ipfsDistUrl(ipfsDistVer))
+        const ipfsDownloadUrl = ipfsDistUrl(ipfsDistVer)
+        core.setOutput('resolved_ipfs_version', ipfsDistVer)
+        core.setOutput('ipfs_download_url', ipfsDownloadUrl)
+        const ipfsPkgPath = await tc.downloadTool(ipfsDownloadUrl)
         const ipfsExtractedFolder = ISWIN ? await tc.extractZip(ipfsPkgPath) : await tc.extractTar(ipfsPkgPath)
         const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsDistVer);
         core.addPath(path.join(ipfsPath, 'go-ipfs'))

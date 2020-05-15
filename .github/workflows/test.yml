@@ -21,6 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Set up IPFS ${{ matrix.ipfs }}
+        id: ipfs_setup
         uses: ./
         with:
           ipfs_version: ${{ matrix.ipfs }}
@@ -31,4 +32,4 @@ jobs:
           while ! curl -s localhost:5001 > /dev/null; do sleep 1; done
       - name: Run Tests
         shell: bash
-        run: curl -sX POST http://localhost:5001/api/v0/version
+        run: curl -sX POST http://localhost:5001/api/v0/version | jq -e '(.Version=="${{ steps.ipfs_setup.outputs.resolved_ipfs_version }}")'

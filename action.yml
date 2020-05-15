@@ -5,6 +5,11 @@ inputs:
   ipfs_version:
     description: An exact IPFS version of a released binary (https://dist.ipfs.io/go-ipfs/versions)
     default: 0.5
+outputs:
+  resolved_ipfs_version:
+    description: Latest matching SemVer IPFS version installed
+  ipfs_download_url:
+    description: Utilized IPFS distribution download URL
 runs:
   using: node12
   main: dist/index.js
