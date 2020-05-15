@@ -1274,6 +1274,7 @@ const semver = __webpack_require__(876)
 const core = __webpack_require__(470)
 const tc = __webpack_require__(533)
 const exec = __webpack_require__(986)
+const cp = __webpack_require__(129)
 
 const MAXATTEMPTS = 30
 const IPFSAPI = 'http://localhost:5001/api/v0/version'
@@ -1327,7 +1328,8 @@ async function run() {
         }
 
         if (runDaemon) {
-            exec.exec('ipfs', ['daemon'])
+            const daemon = cp.spawn('ipfs', ['daemon'], {detached: true, stdio: 'ignore'})
+            daemon.unref()
             let attemptsLeft = MAXATTEMPTS
             while (--attemptsLeft) {
                 try {
@@ -1344,7 +1346,6 @@ async function run() {
     } catch (error) {
         core.setFailed(error.message);
     }
-    process.exit()
 }
 
 run()

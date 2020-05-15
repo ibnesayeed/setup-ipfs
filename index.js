@@ -4,6 +4,7 @@ const semver = require('semver')
 const core = require('@actions/core')
 const tc = require('@actions/tool-cache')
 const exec = require('@actions/exec')
+const cp = require('child_process')
 
 const MAXATTEMPTS = 30
 const IPFSAPI = 'http://localhost:5001/api/v0/version'
@@ -57,7 +58,8 @@ async function run() {
         }
 
         if (runDaemon) {
-            exec.exec('ipfs', ['daemon'])
+            const daemon = cp.spawn('ipfs', ['daemon'], {detached: true, stdio: 'ignore'})
+            daemon.unref()
             let attemptsLeft = MAXATTEMPTS
             while (--attemptsLeft) {
                 try {
@@ -74,7 +76,6 @@ async function run() {
     } catch (error) {
         core.setFailed(error.message);
     }
-    process.exit()
 }
 
 run()
