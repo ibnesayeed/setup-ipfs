@@ -5,6 +5,7 @@ const core = require('@actions/core')
 const tc = require('@actions/tool-cache')
 const exec = require('@actions/exec')
 
+const MAXATTEMPTS = 30
 const IPFSAPI = 'http://localhost:5001/api/v0/version'
 const IPFSVERS = 'https://dist.ipfs.io/go-ipfs/versions'
 const ISWIN = process.platform === 'win32'
@@ -57,7 +58,7 @@ async function run() {
 
         if (runDaemon) {
             exec.exec('ipfs', ['daemon'])
-            let attemptsLeft = 10
+            let attemptsLeft = MAXATTEMPTS
             while (--attemptsLeft) {
                 try {
                     await exec.exec('curl', ['-s', '-X', 'POST', IPFSAPI])

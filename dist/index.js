@@ -1275,6 +1275,7 @@ const core = __webpack_require__(470)
 const tc = __webpack_require__(533)
 const exec = __webpack_require__(986)
 
+const MAXATTEMPTS = 30
 const IPFSAPI = 'http://localhost:5001/api/v0/version'
 const IPFSVERS = 'https://dist.ipfs.io/go-ipfs/versions'
 const ISWIN = process.platform === 'win32'
@@ -1327,7 +1328,7 @@ async function run() {
 
         if (runDaemon) {
             exec.exec('ipfs', ['daemon'])
-            let attemptsLeft = 10
+            let attemptsLeft = MAXATTEMPTS
             while (--attemptsLeft) {
                 try {
                     await exec.exec('curl', ['-s', '-X', 'POST', IPFSAPI])
