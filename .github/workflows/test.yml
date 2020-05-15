@@ -33,5 +33,5 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          curl -sX POST http://localhost:5001/api/v0/version | jq
+          curl -sX POST http://localhost:5001/api/v0/version | jq -e
           curl -sX POST http://localhost:5001/api/v0/version | jq -e '(.Version=="${{ steps.ipfs_setup.outputs.resolved_ipfs_version }}")'
