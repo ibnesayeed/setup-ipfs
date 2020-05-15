@@ -20,16 +20,12 @@ jobs:
     name: ${{ matrix.os }} IPFS-${{ matrix.ipfs }}
     steps:
       - uses: actions/checkout@master
-      - name: Set up IPFS ${{ matrix.ipfs }}
+      - name: Set up and Run IPFS ${{ matrix.ipfs }}
         id: ipfs_setup
         uses: ./
         with:
           ipfs_version: ${{ matrix.ipfs }}
-      - name: Boot IPFS Daemon
-        shell: bash
-        run: |
-          ipfs daemon &
-          while ! curl -s localhost:5001 > /dev/null; do sleep 1; done
-      - name: Run Tests
+          run_daemon: true
+      - name: Check IPFS ${{ steps.ipfs_setup.outputs.resolved_ipfs_version }} API
         shell: bash
         run: curl -sX POST http://localhost:5001/api/v0/version | jq -e '(.Version=="${{ steps.ipfs_setup.outputs.resolved_ipfs_version }}")'

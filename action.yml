@@ -3,8 +3,11 @@ description: A GitHub Action to install and initialize IPFS
 author: Sawood Alam <@ibnesayeed>
 inputs:
   ipfs_version:
-    description: An exact IPFS version of a released binary (https://dist.ipfs.io/go-ipfs/versions)
+    description: IPFS version, automatically resolved to the best matching released binary as per the SemVer format
     default: 0.5
+  run_daemon:
+    description: Whether to start IPFS service daemon after installation and initialization
+    default: false
 outputs:
   resolved_ipfs_version:
     description: Latest matching SemVer IPFS version installed

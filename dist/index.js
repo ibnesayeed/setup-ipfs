@@ -1275,8 +1275,11 @@ const core = __webpack_require__(470)
 const tc = __webpack_require__(533)
 const exec = __webpack_require__(986)
 
+const IPFSAPI = 'http://localhost:5001/api/v0/version'
 const IPFSVERS = 'https://dist.ipfs.io/go-ipfs/versions'
 const ISWIN = process.platform === 'win32'
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 async function ipfsDistVersion(version) {
     const ipfsVersPath = await tc.downloadTool(IPFSVERS)
@@ -1293,6 +1296,7 @@ function ipfsDistUrl(version) {
 async function run() {
     try {
         const ipfsVer = core.getInput('ipfs_version')
+        const runDaemon = core.getInput('run_daemon')
         const ipfsDistVer = await ipfsDistVersion(ipfsVer)
         const ipfsDownloadUrl = ipfsDistUrl(ipfsDistVer)
         core.setOutput('resolved_ipfs_version', ipfsDistVer.replace(/^v/, ''))
@@ -1320,9 +1324,26 @@ async function run() {
         if (welcomeCid) {
             await exec.exec('ipfs', ['cat', `${welcomeCid}/readme`])
         }
+
+        if (runDaemon) {
+            exec.exec('ipfs', ['daemon'])
+            let attemptsLeft = 10
+            while (--attemptsLeft) {
+                try {
+                    await exec.exec('curl', ['-s', '-X', 'POST', IPFSAPI])
+                    break
+                } catch (error) {
+                    await sleep(1000)
+                }
+            }
+            if (!attemptsLeft) {
+                throw new Error('IPFS API service unreachable')
+            }
+        }
     } catch (error) {
         core.setFailed(error.message);
     }
+    process.exit()
 }
 
 run()

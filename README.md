@@ -10,7 +10,11 @@ This action automatically detects runner platform features like the operating sy
 
 ### `ipfs_version`
 
-A [released IPFS binary version](https://dist.ipfs.io/go-ipfs/versions) in [SemVer](https://semver.org/) format (Default: `0.5`).
+IPFS version, automatically resolved to the best matching [released binary](https://dist.ipfs.io/go-ipfs/versions) as per the [SemVer format](https://semver.org/) (default: `0.5`).
+
+### `run_daemon`
+
+Whether to start IPFS service daemon after installation and initialization (default: `false`).
 
 
 ## Outputs
@@ -42,6 +46,14 @@ Setting up a custom IPFS version (e.g., latest patch of IPFS `0.4.x`):
     ipfs_version: ^0.4
 ```
 
+Automatically booting the IPFS API service after installation and initialization:
+
+```yml
+- uses: ibnesayeed/setup-ipfs@master
+  with:
+    run_daemon: true
+```
+
 A comprehensive example with matrix setup to test against various virsions of IPFS on various platforms:
 
 ```yml
@@ -61,8 +73,13 @@ jobs:
     steps:
       - name: Set up IPFS ${{ matrix.ipfs }}
         uses: ibnesayeed/setup-ipfs@master
+        id: ipfs_setup
         with:
           ipfs_version: ${{ matrix.ipfs }}
+          run_daemon: true
+      - name: Check IPFS ${{ steps.ipfs_setup.outputs.resolved_ipfs_version }} API
+        shell: bash
+        run: curl -sX POST http://localhost:5001/api/v0/version
 ```
 
-See it in action in the [IPWB](https://github.com/oduwsdl/ipwb/blob/master/.github/workflows/test.yml) repo.
+[See this example in action](https://github.com/ibnesayeed/setup-ipfs/blob/master/.github/workflows/test.yml).
