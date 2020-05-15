@@ -1,6 +1,6 @@
 {
   "name": "setup-ipfs",
-  "version": "0.2.0",
+  "version": "0.4.0",
   "description": "A GitHub Action to install and initialize IPFS",
   "main": "index.js",
   "scripts": {
