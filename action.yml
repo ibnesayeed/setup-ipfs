@@ -13,9 +13,13 @@ outputs:
     description: Latest matching SemVer IPFS version installed
   ipfs_download_url:
     description: Utilized IPFS distribution download URL
+  peer_id:
+    description: Identity of the peer as reported on initialization
+  welcome_ref:
+    description: Hash of the Welcome object containing readme, help, and other files
 runs:
   using: node12
   main: dist/index.js
 branding:
-  icon: package  
+  icon: package
   color: blue

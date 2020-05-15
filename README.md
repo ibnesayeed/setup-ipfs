@@ -29,6 +29,14 @@ Latest matching SemVer IPFS version installed.
 
 Utilized IPFS distribution download URL.
 
+### `peer_id`
+
+Identity of the peer as reported on initialization.
+
+### `welcome_ref`
+
+Hash of the Welcome object containing readme, help, and other files.
+
 
 ## Example usage
 

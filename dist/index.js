@@ -1308,13 +1308,18 @@ async function run() {
         const ipfsPath = await tc.cacheDir(ipfsExtractedFolder, 'ipfs', ipfsDistVer);
         core.addPath(path.join(ipfsPath, 'go-ipfs'))
 
-        let welcomeCid
         const opts = {
             ignoreReturnCode: true,
             listeners: {
                 stdout: data => {
+                    let msg = data.toString()
                     try {
-                        welcomeCid = data.toString().match(/ipfs cat \/ipfs\/(?<cid>\w+)\/readme/).groups.cid
+                        core.setOutput('peer_id', msg.match(/peer identity: (\w+)/)[1])
+                    } catch (error) {
+                        // Do nothing
+                    }
+                    try {
+                        core.setOutput('welcome_ref', msg.match(/ipfs cat \/ipfs\/(\w+)\/readme/)[1])
                     } catch (error) {
                         // Do nothing
                     }
@@ -1322,10 +1327,6 @@ async function run() {
             }
         }
         await exec.exec('ipfs', ['init'], opts)
-
-        if (welcomeCid) {
-            await exec.exec('ipfs', ['cat', `${welcomeCid}/readme`])
-        }
 
         if (runDaemon) {
             const daemon = cp.spawn('ipfs', ['daemon'], {detached: true, stdio: 'ignore'})
