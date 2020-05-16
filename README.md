@@ -35,7 +35,7 @@ Identity of the peer as reported on initialization.
 
 ### `welcome_ref`
 
-Hash of the Welcome object containing readme, help, and other files.
+Hash of the Welcome object containing `readme`, `help`, and other files.
 
 
 ## Example usage
@@ -85,9 +85,12 @@ jobs:
         with:
           ipfs_version: ${{ matrix.ipfs }}
           run_daemon: true
-      - name: Check IPFS ${{ steps.ipfs_setup.outputs.resolved_ipfs_version }} API
+      - name: Test IPFS ${{ steps.ipfs_setup.outputs.resolved_ipfs_version }} CLI and API
         shell: bash
-        run: curl -sX POST http://localhost:5001/api/v0/version
+        run: |
+          set -o pipefail
+          ipfs cat ${{ steps.ipfs_setup.outputs.welcome_ref }}/readme
+          curl -sX POST http://localhost:5001/api/v0/version | jq -e '(.Version=="${{ steps.ipfs_setup.outputs.resolved_ipfs_version }}")'
 ```
 
 [See this example in action](https://github.com/ibnesayeed/setup-ipfs/blob/master/.github/workflows/test.yml).
