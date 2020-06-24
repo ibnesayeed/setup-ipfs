@@ -1,6 +1,6 @@
 {
   "name": "setup-ipfs",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A GitHub Action to install and initialize IPFS",
   "main": "index.js",
   "scripts": {
@@ -26,15 +26,15 @@
   },
   "homepage": "https://github.com/ibnesayeed/setup-ipfs#readme",
   "dependencies": {
-    "semver": "^7.3",
     "@actions/core": "^1.2",
-    "@actions/tool-cache": "^1.0",
+    "@actions/exec": "^1.0",
     "@actions/io": "^1.0",
-    "@actions/exec": "^1.0"
+    "@actions/tool-cache": "^1.5.5",
+    "semver": "^7.3"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.22",
-    "eslint": "^7.0",
-    "jest": "^26.0"
+    "@zeit/ncc": "^0.22.3",
+    "eslint": "^7.3.1",
+    "jest": "^26.1.0"
   }
 }
