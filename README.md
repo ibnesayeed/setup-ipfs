@@ -10,7 +10,7 @@ This action automatically detects runner platform features like the operating sy
 
 ### `ipfs_version`
 
-IPFS version, automatically resolved to the best matching [released binary](https://dist.ipfs.io/go-ipfs/versions) as per the [SemVer format](https://semver.org/) (default: `0.5`).
+IPFS version, automatically resolved to the best matching [released binary](https://dist.ipfs.io/go-ipfs/versions) as per the [SemVer format](https://semver.org/) (default: `0.6`).
 
 ### `run_daemon`
 
@@ -76,6 +76,7 @@ jobs:
         ipfs:
           - 0.4
           - 0.5
+          - 0.6
     runs-on: ${{ matrix.os }}
     name: Test on ${{ matrix.os }} with IPFS ${{ matrix.ipfs }}
     steps:
